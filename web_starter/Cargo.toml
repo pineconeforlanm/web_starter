@@ -1,0 +1,13 @@
+[package]
+name = "web_starter"
+description.workspace = true
+edition.workspace = true
+homepage.workspace = true
+categories.workspace = true
+keywords.workspace = true
+license.workspace = true
+readme.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
