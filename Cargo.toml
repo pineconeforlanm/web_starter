@@ -1,0 +1,37 @@
+[workspace]
+resolver = "3"
+members = [
+    "web_starter"
+]
+
+[workspace.package]
+description = "web starter: A minimal web application starter template using Actix-web, Diesel, and Serde"
+edition = "2024"
+homepage = ""
+categories = ["web", "actix-web", "diesel", "serde"]
+keywords = ["web", "actix-web", "diesel", "serde"]
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/pineconeforlanm/web_starter.git"
+version = "0.0.1"
+
+[workspace.dependencies]
+axum = { version = "0.8.4", features = ["macros"] }
+tokio = { version = "1.45.0", features = ["full"] }
+tracing = { version = "0.1.41", features = ["async-await"] }
+tracing-subscriber = { version = "0.3.19", features = ["env-filter", "chrono"] }
+config = { version = "0.15.11", features = ["yaml"] }
+serde = { version = "1.0.219", features = ["derive"] }
+serde_yaml = { version = "0.9.28" }
+anyhow = "1.0.98"
+sea-orm = { version = "1.1.11", features = ["with-chrono", "debug-print", "sqlx-postgres", "with-rust_decimal", "runtime-tokio"] }
+num_cpus = "1.16.0"
+thiserror = "2.0.12"
+
+
+[profile.bench]
+opt-level = 3
+
+[profile.test]
+opt-level = 0
+
