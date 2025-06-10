@@ -1,0 +1,17 @@
+server:
+  port: 3000
+
+database:
+  host: 172.22.73.127
+  port: 5432
+  user: postgres
+  password: 123456
+  database: postgres
+  schema: public
+  max_connections: 1024
+  min_connections: 32
+  connection_timeout: 10
+  acquire_increment: 30
+  idle_timeout: 300
+  max_lifetime: 86400
+  sql_log_enabled: false
