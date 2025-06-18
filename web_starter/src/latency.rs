@@ -1,5 +1,5 @@
 use axum::http::Response;
-use std::fmt::Display;
+use std::fmt::{Display, Formatter};
 use std::time::Duration;
 use tower_http::trace::OnResponse;
 use tracing::Span;
@@ -7,12 +7,12 @@ use tracing::Span;
 #[derive(Debug, Clone, Copy)]
 pub struct LatencyOnResponse;
 
-impl<T> OnResponse<T> for LatencyOnResponse {
-    fn on_response(self, response: &Response<T>, latency: Duration, span: &Span) {
+impl<B> OnResponse<B> for LatencyOnResponse {
+    fn on_response(self, response: &Response<B>, latency: Duration, span: &Span) {
         tracing::info!(
             latency = %Latency(latency),
-            status = %response.status(),
-            "finished processing request",
+            status = response.status().as_u16(),
+            "finished processing request"
         );
     }
 }
@@ -20,11 +20,11 @@ impl<T> OnResponse<T> for LatencyOnResponse {
 struct Latency(Duration);
 
 impl Display for Latency {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if self.0.as_millis() > 0 {
-            write!(f, "{}ms", self.0.as_millis())
+            write!(f, "{} ms", self.0.as_millis())
         } else {
-            write!(f, "{}μs", self.0.as_micros())
+            write!(f, "{} μs", self.0.as_micros())
         }
     }
 }

@@ -2,7 +2,7 @@ use serde::{Deserialize, Deserializer};
 use std::fmt::Display;
 use std::str::FromStr;
 
-#[derive(Debug, Deserialize)]
+#[derive(Deserialize)]
 #[serde(untagged)]
 enum StringOrNumber<T> {
     String(String),
@@ -15,8 +15,7 @@ where
     T::Err: Display,
     D: Deserializer<'de>,
 {
-    let sdn = StringOrNumber::<T>::deserialize(deserializer)?;
-    match sdn {
+    match StringOrNumber::deserialize(deserializer)? {
         StringOrNumber::String(s) => s.parse().map_err(serde::de::Error::custom),
         StringOrNumber::Number(n) => Ok(n),
     }

@@ -8,6 +8,7 @@ pub struct Path<T>(pub T);
 
 impl<T> HasValidate for Path<T> {
     type Validate = T;
+
     fn get_validate(&self) -> &Self::Validate {
         &self.0
     }

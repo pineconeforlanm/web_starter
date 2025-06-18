@@ -2,7 +2,7 @@ use crate::error::ApiError;
 use axum::extract::FromRequestParts;
 use axum_valid::HasValidate;
 
-#[derive(Debug, Copy, Clone, Default, FromRequestParts)]
+#[derive(Debug, Clone, Default, FromRequestParts)]
 #[from_request(via(axum::extract::Query), rejection(ApiError))]
 pub struct Query<T>(pub T);
 

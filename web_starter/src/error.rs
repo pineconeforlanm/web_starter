@@ -28,6 +28,9 @@ pub enum ApiError {
     #[error("param valid failed: {0}")]
     Validation(String),
 
+    #[error("password hash error: {0}")]
+    Bcrypt(#[from] bcrypt::BcryptError),
+
     #[error("{0}")]
     Biz(String),
 
@@ -49,7 +52,7 @@ impl ApiError {
         match self {
             ApiError::NotFound => axum::http::StatusCode::NOT_FOUND,
             ApiError::MethodNotAllowed => axum::http::StatusCode::METHOD_NOT_ALLOWED,
-            ApiError::Database(_) | ApiError::Internal(_) => {
+            ApiError::Database(_) | ApiError::Internal(_) | ApiError::Bcrypt(_) => {
                 axum::http::StatusCode::INTERNAL_SERVER_ERROR
             }
             ApiError::Query(_)
@@ -65,7 +68,7 @@ impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
         let sc = self.status_code();
 
-        let resp = axum::Json(ApiResponse::<()>::error(self.to_string()));
+        let resp = axum::Json(ApiResponse::<()>::err(self.to_string()));
 
         (sc, resp).into_response()
     }
