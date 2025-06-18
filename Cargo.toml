@@ -1,7 +1,8 @@
 [workspace]
 resolver = "3"
 members = [
-    "web_starter"
+    "web_starter",
+    "migration"
 ]
 
 [workspace.package]
@@ -17,6 +18,7 @@ version = "0.0.1"
 
 [workspace.dependencies]
 axum = { version = "0.8.4", features = ["macros"] }
+axum-valid = { version = "0.23.0", features = ["full_validator"] }
 tokio = { version = "1.45.0", features = ["full"] }
 tracing = { version = "0.1.41", features = ["async-await"] }
 tracing-subscriber = { version = "0.3.19", features = ["env-filter", "chrono"] }
@@ -27,7 +29,12 @@ anyhow = "1.0.98"
 sea-orm = { version = "1.1.11", features = ["with-chrono", "debug-print", "sqlx-postgres", "with-rust_decimal", "runtime-tokio"] }
 num_cpus = "1.16.0"
 thiserror = "2.0.12"
-
+tower-http = { version = "0.6.4", features = ["trace", "timeout", "limit", "cors", "normalize-path"] }
+xid = { version = "1.1.1" }
+bytesize = { version = "2" }
+validator = { version = "0.20.0", features = ["derive"] }
+regex = { version = "1" }
+idgenerator = { version = "2" }
 
 [profile.bench]
 opt-level = 3
