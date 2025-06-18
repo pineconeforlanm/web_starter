@@ -28,4 +28,5 @@ bytesize = { workspace = true }
 validator = { workspace = true }
 regex = { workspace = true }
 idgenerator = { workspace = true }
+bcrypt = { workspace = true }
 
