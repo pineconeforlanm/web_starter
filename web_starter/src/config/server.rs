@@ -14,5 +14,6 @@ impl ServerConfig {
         self.port.unwrap_or(DEFAULT_PORT)
     }
     pub fn host(&self) -> &str {
-        self.host.as_deref().unwrap_or(DEFAULT_HOST)}
+        self.host.as_deref().unwrap_or(DEFAULT_HOST)
+    }
 }

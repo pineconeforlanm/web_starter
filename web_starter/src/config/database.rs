@@ -34,7 +34,7 @@ pub struct DatabaseConfig {
     max_connections: Option<u32>,
     min_connections: Option<u32>,
     connect_timeout: Option<u64>,
-    acquire_timeout: Option<u64>,   
+    acquire_timeout: Option<u64>,
     idle_timeout: Option<u64>,
     max_lifetime: Option<u64>,
     sqlx_logging: Option<bool>,
@@ -78,6 +78,6 @@ impl DatabaseConfig {
         self.max_lifetime.unwrap_or(DEFAULT_MAX_LIFETIME)
     }
     pub fn sqlx_logging(&self) -> bool {
-        self.sqlx_logging.unwrap_or(false)  
+        self.sqlx_logging.unwrap_or(false)
     }
 }

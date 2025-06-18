@@ -1,6 +1,6 @@
-use axum::Router;
 use crate::app::AppState;
 use crate::error::{ApiError, ApiResult};
+use axum::Router;
 
 mod user;
 
@@ -13,14 +13,10 @@ pub fn create_router() -> Router<AppState> {
                 .fallback(async || -> ApiResult<()> {
                     tracing::warn!("API not found");
                     Err(ApiError::NotFound)
-                }
-                ),
+                }),
         )
-        .method_not_allowed_fallback(
-            async || -> ApiResult<()> {
-                tracing::warn!("Method not allowed");
-                Err(ApiError::MethodNotAllowed)
-            }
-        )
+        .method_not_allowed_fallback(async || -> ApiResult<()> {
+            tracing::warn!("Method not allowed");
+            Err(ApiError::MethodNotAllowed)
+        })
 }
-

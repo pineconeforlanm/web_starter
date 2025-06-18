@@ -1,13 +1,13 @@
-mod server;
 mod database;
+mod server;
 
-use std::sync::LazyLock;
 use anyhow::Context;
 use config::{Config, FileFormat};
 use serde::Deserialize;
+use std::sync::LazyLock;
 
-pub use server::ServerConfig;
 pub use database::DatabaseConfig;
+pub use server::ServerConfig;
 
 static CONFIG: LazyLock<AppConfig> =
     LazyLock::new(|| AppConfig::load().expect("Failed to initialize config"));
@@ -15,7 +15,7 @@ static CONFIG: LazyLock<AppConfig> =
 #[derive(Debug, Deserialize)]
 pub struct AppConfig {
     server: ServerConfig,
-    database: DatabaseConfig
+    database: DatabaseConfig,
 }
 
 impl AppConfig {
@@ -24,13 +24,13 @@ impl AppConfig {
             .add_source(
                 config::File::with_name("config/application")
                     .format(FileFormat::Yaml)
-                    .required(true)
+                    .required(true),
             )
             .add_source(
                 config::Environment::with_prefix("APP")
                     .try_parsing(true)
                     .separator("_")
-                    .list_separator(",")
+                    .list_separator(","),
             )
             .build()
             .with_context(|| anyhow::anyhow!("Failed to load config"))?

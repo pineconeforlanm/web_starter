@@ -1,19 +1,21 @@
+mod api;
 mod app;
+mod common;
 mod config;
 mod database;
 mod entity;
-mod logger;
-mod server;
-mod api;
 mod error;
-mod response;
-mod latency;
-mod common;
-mod serde;
-mod query;
-mod path;
+mod id;
 mod json;
+mod latency;
+mod logger;
+mod path;
+mod query;
+mod response;
+mod serde;
+mod server;
 mod valid;
+mod validation;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -21,6 +23,3 @@ async fn main() -> anyhow::Result<()> {
     app::run(router).await?;
     Ok(())
 }
-
-
-

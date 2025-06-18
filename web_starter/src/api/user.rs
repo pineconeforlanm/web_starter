@@ -2,16 +2,16 @@ use crate::app::AppState;
 use crate::common::{Page, PaginationParams};
 use crate::entity::prelude::SysUser;
 use crate::entity::sys_user;
+use crate::entity::sys_user::ActiveModel;
 use crate::error::ApiResult;
 use crate::response::ApiResponse;
-use crate::valid::ValidQuery;
+use crate::valid::{ValidJson, ValidQuery};
 use axum::extract::State;
 use axum::{Router, debug_handler};
 use sea_orm::prelude::*;
-use sea_orm::{Condition, QueryOrder, QueryTrait};
+use sea_orm::{Condition, IntoActiveModel, QueryOrder, QueryTrait};
 use serde::Deserialize;
 use validator::Validate;
-
 pub fn create_router() -> Router<AppState> {
     Router::new().route("/", axum::routing::get(find_page))
 }
@@ -53,3 +53,30 @@ async fn find_page(
 
     Ok(ApiResponse::ok("ok", Some(page)))
 }
+
+#[derive(Debug, Deserialize, Validate, DeriveIntoActiveModel)]
+pub struct UserParams {
+    #[validate(length(min = 1, max = 16, message = "name length 1-16"))]
+    pub name: String,
+    pub gender: String,
+    #[validate(length(min = 1, max = 16, message = "account length 1-16"))]
+    pub account: String,
+    #[validate(length(min = 6, max = 16, message = "password length 6-16"))]
+    pub password: String,
+    #[validate(custom(function = "crate::validation::is_mobile_phone"))]
+    pub mobile_phone: String,
+    pub birthday: Date,
+    #[serde(default)]
+    pub enabled: bool,
+}
+
+// #[debug_handler]
+// async fn create(
+//     State(AppState { db }): State<AppState>,
+//     ValidJson(params): ValidJson<UserParams>,
+// ) -> ApiResult<ApiResponse<sys_user::Model>> {
+//     let active_model = params.into_active_model();
+//     let res = active_model.insert(&db).await?;
+//
+//     Ok(ApiResponse::ok("ok", Some(res)))
+// }
